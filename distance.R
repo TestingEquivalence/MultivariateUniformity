@@ -34,20 +34,3 @@ distance<-function(x){
   return(r)
 }
 
-multivariate.ecdf<-function(x, vx){
-  n=length(vx)
-  r=0
-  for (e in vx){
-    vb=e<=x
-    if (all(vb)) {r=r+1}
-  }
-  return (r/n)
-}
-
-getUniformSample<-function(d,n){
-  ls=list()
-  for (i in c(1:n)){
-    ls[[i]]=runif(d)
-  }
-  return(ls)
-}
