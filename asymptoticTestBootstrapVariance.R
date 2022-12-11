@@ -21,5 +21,8 @@ asymptoticTestBootstrapVariance<-function(parameter){
   qt=qnorm(1-parameter$alpha,0,1)
   
   min_eps = dst + qt*vol
+  # res=list()
+  # res$distance=dst
+  # res$min_eps=min_eps
   return(min_eps)
 }

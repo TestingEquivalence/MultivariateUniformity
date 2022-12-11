@@ -3,7 +3,7 @@ source("size.R")
 source("asymptoticTestBootstrapVariance.R")
 
 d=1
-n=100
+n=1000^d
 x=getUniformSample(d,n)
 
 parameter=list()

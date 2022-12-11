@@ -1,18 +1,16 @@
 tPercentileBootstrapTest<-function(parameter){
-  U=uTransform(parameter$x, parameter$F)
-  dst=testStatisticAD(U)
-  stDev=sqrt(asymptoticVariance(U))
+  dst=distance(parameter$x)
+  stDev=bootstrapVolatility(parameter$x,parameter$nSimulationVariance)
   
   #calculate bootstrap distribution
   t.fun<-function(dat,ind){
     x=dat[ind]
-    x=sort(x)
-    dstBst=testStatisticAD(x)
-    stDevBst=sqrt(asymptoticVariance(x))
+    dstBst=distance(x)
+    stDevBst=bootstrapVolatility(x,parameter$nSimulationVariance)
     return((dstBst-dst)/stDevBst)
   }
   
-  res=boot(U,t.fun,R=parameter$nSimulation)
+  res=boot(parameter$x,t.fun,R=parameter$nSimulation)
   
   #calculate quantile of bootstrap distribution
   qt=quantile(res$t,parameter$alpha,type=1)
