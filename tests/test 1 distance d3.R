@@ -3,7 +3,7 @@ source("size.R")
 
 # case d=3 
 d=3
-n=10^3
+n=10^d
 vx=getUniformSample(d,n)
 
 

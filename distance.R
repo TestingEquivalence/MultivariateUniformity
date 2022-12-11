@@ -34,3 +34,14 @@ distance<-function(x){
   return(r)
 }
 
+distanceMC<-function(x, nSimulation){
+  f<-function(x){
+    h=multivariate.ecdf(x,vx)
+    return((h-prod(x))^2)
+  }
+  
+  m=getMax(f,vx)
+  d=length(x[[1]])
+  res=integral.mc(f,d,m,nSimulation)
+  return(res)
+}
