@@ -2,8 +2,9 @@ source("distance.R")
 source("size.R")
 source("asymptoticTestBootstrapVariance.R")
 
-d=1
-n=1000^d
+d=3
+n=10
+n=n^d
 x=getUniformSample(d,n)
 
 parameter=list()
