@@ -3,16 +3,10 @@ source("size.R")
 
 # case d=3 
 d=3
-n=10^d
+n=20
+n=n^d
+
 vx=getUniformSample(d,n)
 
-
-f<-function(x){
-   h=multivariate.ecdf(x,vx)
-   return((h-prod(x))^2)
-}
-
-m=getMax(f,vx)
-
 distance(vx)
-integral.mc(f,d,m,50000)
+distanceMC(vx,10000)
