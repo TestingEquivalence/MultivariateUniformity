@@ -1,11 +1,12 @@
 multivariate.ecdf<-function(x, vx){
-  n=length(vx)
-  r=0
-  for (e in vx){
+  
+  r=sapply(vx, function(e){
     vb=e<=x
-    if (all(vb)) {r=r+1}
-  }
-  return (r/n)
+    if (all(vb)) {return (1)}
+    return (0)
+  })
+  
+  return (sum(r)/n)
 }
 
 getUniformSample<-function(d,n){

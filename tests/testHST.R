@@ -4,7 +4,8 @@ set.seed(10071977)
 x=matrix(rep(0,2),ncol=2)
 #x = rbind(c(0,0),x)
 x = rbind(c(1,1),x)
-x = rbind(x,c(0.6,0.3))
+#x = rbind(x,c(0.6,0.3))
+histRectangular(x, breaks = 2,plot.type = "default")
 f=histRectangular(x, breaks = 4)
 
 #m= SolidRectangle( a=c(0,0), b=c(1,1), breaks=4 )
@@ -23,5 +24,5 @@ xmax
 ymax
 
 #cell counts and relative freqs
-f$counts[[k]]
-f$rel.freq[[k]]
+f$counts
+f$rel.freq

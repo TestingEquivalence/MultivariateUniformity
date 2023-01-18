@@ -1,5 +1,6 @@
 library(spatstat)
 data("anemones")
+plot(anemones)
 plot(unmark(anemones))
 
 data=anemones
