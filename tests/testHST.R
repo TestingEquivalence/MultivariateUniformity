@@ -1,15 +1,15 @@
 library(mvmesh)
-set.seed(10071977)
-#x = matrix( runif(2000), ncol=2 )
-x=matrix(rep(0,2),ncol=2)
-#x = rbind(c(0,0),x)
-x = rbind(c(1,1),x)
-#x = rbind(x,c(0.6,0.3))
-histRectangular(x, breaks = 2,plot.type = "default")
-f=histRectangular(x, breaks = 4)
+set.seed(10071978)
+x=matrix(runif(2000), nrow = 1000, ncol = 2)
 
-#m= SolidRectangle( a=c(0,0), b=c(1,1), breaks=4 )
-#plot( SolidRectangle( a=c(0,0), b=c(1,1), breaks=4 ), show.labels=TRUE )
+m=getRegularMesh(x,4)
+nx=rmvmesh(n=1000000, mesh=m$mesh, weights = m$rel.freq)
+
+nm=getRegularMesh(nx,4)
+
+m$rel.freq
+nm$rel.freq
+m$rel.freq-nm$rel.freq
 
 #cell number
 k=7
