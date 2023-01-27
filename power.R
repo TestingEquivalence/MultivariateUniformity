@@ -18,3 +18,18 @@ simulateFromHistogram<-function(n,h){
   nx=rmvmesh(n, mesh=h$mesh, weights = h$rel.freq)
   return(as.list(as.data.frame(t(nx))))
 }
+
+randomExteriorPoint<-function(x, breaks, epsilon){
+  n=length(x)
+  d=length(x[[1]])
+  tr=1
+  repeat{
+    nx=sample(x,n,replace = TRUE)
+    mhist=getRegularHistogram(nx,breaks)
+    y=simulateFromHistogram(1000^2,mhist)
+    dst=distance(y)
+    if (dst>epsilon) return(mhist)
+    print(paste("trial: ",tr))
+    tr=tr+1
+  }
+}
