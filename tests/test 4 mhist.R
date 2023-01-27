@@ -1,15 +1,17 @@
 library(mvmesh)
 source("power.R")
+source("size.R")
 
+n=1000
+d=2
+breaks=4
 set.seed(10071978)
-x=matrix(runif(2000), nrow = 1000, ncol = 2)
+x=getUniformSample(d,n)
 
-h=getRegulatHistogram(x,4)
-n=1e5
-nx=simulateFromHistogram(n,h)
-nm=matrix(unlist(nx), byrow=TRUE, nrow=n )
-
-nh=getRegulatHistogram(nm,4)
+h=getRegularHistogram(x,breaks)
+nn=1e5
+nx=simulateFromHistogram(nn,h)
+nh=getRegularHistogram(nx,breaks)
 
 h$rel.freq
 nh$rel.freq

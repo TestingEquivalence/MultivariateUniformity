@@ -1,5 +1,6 @@
-getRegulatHistogram<-function(x,breaks){
-  d=length(x[1])
+getRegularHistogram<-function(x,breaks){
+  d=length(x[[1]])
+  x=as.matrix(t(as.data.frame(x)))
   x = rbind(x,rep(0,d))
   x = rbind(x,rep(1,d))
   m=histRectangular(x, breaks, plot.type = "none")
