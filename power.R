@@ -26,9 +26,16 @@ randomExteriorPoint<-function(x, breaks, epsilon){
   repeat{
     nx=sample(x,n,replace = TRUE)
     mhist=getRegularHistogram(nx,breaks)
-    y=simulateFromHistogram(1000^2,mhist)
+    y=simulateFromHistogram(1000,mhist)
     dst=distance(y)
-    if (dst>epsilon) return(mhist)
+    if (dst>epsilon) {
+      y=simulateFromHistogram(100^d,mhist)
+      dst=distance(y)
+      ls=list()
+      ls$dst=dst
+      ls$mhist=mhist
+      return(ls)
+    }
     print(paste("trial: ",tr))
     tr=tr+1
   }
