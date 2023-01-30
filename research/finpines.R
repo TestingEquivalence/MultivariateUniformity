@@ -1,6 +1,8 @@
 library(spatstat)
-data(finpines)
-plot(finpines)
+
+source("distance.R")
+source("size.R")
+source("asymptoticTestBootstrapVariance.R")
 
 # rescale positions data to [0, 1]
 data=finpines
@@ -10,4 +12,20 @@ data$x=(data$x-data$window$xrange[1])/dx
 data$y=(data$y-data$window$yrange[1])/dy
 data$window$xrange=c(0,1)
 data$window$yrange=c(0,1)
-plot(unmark(data))
+
+# get list of rescaled positions
+n=length(data$x)
+x=list()
+for (i in c(1:n)){
+  x[[i]]=c(data$x[i],data$y[i])
+}
+
+# define parameter file
+parameter=list()
+parameter$x=x
+parameter$nSimulation=10
+parameter$alpha=0.05
+
+# apply tests
+
+asym
