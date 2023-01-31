@@ -3,6 +3,7 @@ library(spatstat)
 source("distance.R")
 source("size.R")
 source("asymptoticTestBootstrapVariance.R")
+source("BootstrapTestTPercentile.R")
 
 # rescale positions data to [0, 1]
 data=finpines
@@ -27,5 +28,11 @@ parameter$nSimulation=10
 parameter$alpha=0.05
 
 # apply tests
+parameter$nSimulation=1000
+set.seed(10071977)
+asymptoticTestBootstrapVariance(parameter)
 
-asym
+parameter$nSimulation=500
+parameter$nSimulationVariance=10
+set.seed(10071977)
+tPercentileBootstrapTest(parameter)
