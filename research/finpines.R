@@ -32,13 +32,14 @@ parameter$nSimulation=1000
 set.seed(10071977)
 asymptoticTestBootstrapVariance(parameter)
 
-parameter$nSimulation=100
+parameter$nSimulation=1000
 parameter$nSimulationVariance=200
 set.seed(10071977)
 tPercentileBootstrapTest(parameter)
 
 # simulate test power at uniformity
 
+#asymptotic test bootstrap variance
 test<-function(x){
   parameter=list()
   parameter$x=x
@@ -49,4 +50,18 @@ test<-function(x){
 
 res=simulatePowerAtUniformity(test,2,n)
 fn=paste0("size_ATBV_1000.csv")
+write.csv(res,fn)
+
+#t percentile bootstrap test
+test<-function(x){
+  parameter=list()
+  parameter$x=x
+  parameter$nSimulation=200
+  parameter$nSimulationVariance=50
+  parameter$alpha=0.05  
+  tPercentileBootstrapTest(parameter)
+}
+
+res=simulatePowerAtUniformity(test,2,n)
+fn=paste0("size_tPB_1000.csv")
 write.csv(res,fn)
