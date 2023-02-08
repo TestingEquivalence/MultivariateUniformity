@@ -26,17 +26,29 @@ randomExteriorPoint<-function(x, breaks, epsilon){
   repeat{
     nx=sample(x,n,replace = TRUE)
     mhist=getRegularHistogram(nx,breaks)
+    #compute distance very approximately to obtain candidates quickly
     y=simulateFromHistogram(1000,mhist)
     dst=distance(y)
     if (dst>epsilon) {
+      #compute distance more precise to check candidates
       y=simulateFromHistogram(100^d,mhist)
       dst=distance(y)
-      ls=list()
-      ls$dst=dst
-      ls$mhist=mhist
-      return(ls)
+      if (dst>epsilon){
+        ls=list()
+        ls$dst=dst
+        ls$mhist=mhist
+        ls$d=d
+        ls$n=n
+        ls$epsilon=epsilon
+        return(ls)
+      }
     }
     print(paste("trial: ",tr))
     tr=tr+1
   }
+}
+
+boundaryPoint<-function(p){
+   w=sqrt(p$epsilon/p$dst)
+   
 }
