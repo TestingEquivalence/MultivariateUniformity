@@ -24,8 +24,13 @@ for (i in c(1:n)){
 
 dst=distance(x)
 breaks=2
-n/breaks
-sqrt(n)
-epsilon=0.002
+epsilon=0.005
 
 rp=randomExteriorPoint(x,breaks,epsilon)
+
+bx=list()
+for (i in c(1:10000)){
+  bx[i]=sampleFromBoundaryPoint(rp)
+}
+
+bdst=distance(bx)

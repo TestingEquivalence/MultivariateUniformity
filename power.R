@@ -40,15 +40,19 @@ randomExteriorPoint<-function(x, breaks, epsilon){
         ls$d=d
         ls$n=n
         ls$epsilon=epsilon
+        ls$w=sqrt(epsilon/dst)
         return(ls)
       }
     }
-    print(paste("trial: ",tr))
+    print(paste("trial: ",tr," : ",dst))
     tr=tr+1
   }
 }
 
-boundaryPoint<-function(p){
-   w=sqrt(p$epsilon/p$dst)
-   
+sampleFromBoundaryPoint<-function(p){
+   w=rbinom(1,1,p$w)
+   if (w==1){
+     return(simulateFromHistogram(1,p$mhist))
+   }
+   return(getUniformSample(p$d,1))
 }

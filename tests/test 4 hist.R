@@ -16,3 +16,5 @@ nh=getRegularHistogram(nx,breaks)
 h$rel.freq
 nh$rel.freq
 nh$rel.freq-h$rel.freq
+
+

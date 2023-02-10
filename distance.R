@@ -45,3 +45,42 @@ distanceMC<-function(x, nSimulation){
   res=integral.mc(f,d,m,nSimulation)
   return(res)
 }
+
+distanceQuader<-function(m,a,b){
+  pa=prod(a)
+  pb=prod(b)
+  d=length(a)
+  
+  s1=pb-pa
+  
+  s2=(pb^2-pa^2)/(2^d)
+  
+  s3=(pb^3-pa^3)/(3^d)
+  
+  return(m*m*s1-2*m*s2+s3)
+}
+
+# distanceRegularHistogram<-function(h){
+#   n=length(h$rel.freq)
+#   sum=0
+#   
+#   for (i in c(1:n)){
+#     m=h$rel.freq[i]  
+#     a=h$mesh$S[1,,i]
+#     b=h$mesh$S[4,,i]
+#     sum=sum+distanceQuader(m,a,b)
+#   }
+#   
+#   return(sum)
+# }
+
+# getCDFRegularHistogram<-function(h,b){
+#   n=length(h$rel.freq)
+#   sum=0
+#   
+#   for (i in c(1:n)){
+#     a=h$mesh$S[4,,i]
+#     flag=as.logical(prod(a<=b))
+#     if (flag) {sum=sum+h$rel.freq(i)}
+#   }
+# }
