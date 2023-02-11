@@ -34,12 +34,12 @@ integral.mc<-function(f,d,m,n){
   return (m*r/n)
 }
 
-simulatePowerAtPoint<-function(test,getSample, n, nSimulation=1000){
+simulatePowerAtPoint<-function(test,getSample, nSimulation=1000){
   set.seed(10071977)
   
   sim=list()
   for (i in c(1:nSimulation)){
-    sim[[i]]=getSample(n)
+    sim[[i]]=getSample()
   }
   
   res=rep(0,nSimulation)
