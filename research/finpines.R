@@ -49,13 +49,13 @@ getSample<-function(){
 test<-function(x){
   parameter=list()
   parameter$x=x
-  parameter$nSimulation=50
+  parameter$nSimulation=1000
   parameter$alpha=0.05  
   asymptoticTestBootstrapVariance(parameter)
 }
 
 res=simulatePowerAtPoint(test, getSample)
-fn=paste0("size_ATBV_50.csv")
+fn=paste0("size_ATBV_1000.csv")
 write.csv(res,fn)
 
 #t percentile bootstrap test

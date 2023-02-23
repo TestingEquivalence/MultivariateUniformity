@@ -23,10 +23,13 @@ for (i in c(1:n)){
 }
 
 dst=distance(x)
-breaks=2
+breaks=4
 epsilon=0.005
 
-rp=randomExteriorPoint(x,breaks,epsilon)
+rp=randomExteriorPoint2(n,d ,breaks,epsilon)
+nx=simulateFromHistogram(20000, rp$mhist)
+distance(nx)
+
 
 bx=list()
 for (i in c(1:10000)){
