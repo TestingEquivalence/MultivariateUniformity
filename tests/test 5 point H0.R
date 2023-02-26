@@ -26,7 +26,7 @@ dst=distance(x)
 breaks=4
 epsilon=0.005
 
-rp=randomExteriorPoint2(n,d ,breaks,epsilon)
+rp=randomExteriorPoint(x,breaks, epsilon)
 nx=simulateFromHistogram(20000, rp$mhist)
 distance(nx)
 

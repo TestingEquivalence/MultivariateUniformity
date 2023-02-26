@@ -68,6 +68,6 @@ test<-function(x){
   tPercentileBootstrapTest(parameter)
 }
 
-res=simulatePowerAtUniformity(test,2,n)
-fn=paste0("size_tPB_1000.csv")
+res=simulatePowerAtPoint(test, getSample)
+fn=paste0("size_tPB_200_50.csv")
 write.csv(res,fn)

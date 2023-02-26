@@ -50,3 +50,4 @@ simulatePowerAtPoint<-function(test,getSample, nSimulation=1000){
   
   return(res)
 }
+

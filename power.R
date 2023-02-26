@@ -49,10 +49,76 @@ randomExteriorPoint<-function(x, breaks, epsilon){
   }
 }
 
-sampleFromBoundaryPoint<-function(p){
-   w=rbinom(1,1,p$w)
-   if (w==1){
-     return(simulateFromHistogram(1,p$mhist))
-   }
-   return(getUniformSample(p$d,1))
+generateBoundaryPoints<-function(x, breaks, epsilon, nPoints){
+  for (n in c(1:nPoints)) {
+    rp=randomExteriorPoint(x,breaks,epsilon)
+    fname=paste0("rp",i,".csv")
+    fname=file.path("points",fname)
+    write.csv(rp, fname)
+  }
+  
 }
+
+sampleFromBoundaryPoint<-function(p,n){
+   ls=list()
+   for (i in c(1:n)){
+     w=rbinom(1,1,p$w)
+     if (w==1){
+      ls[[i]]=simulateFromHistogram(1,p$mhist)
+     }
+     ls[[i]]=getUniformSample(p$d,1)    
+   }
+   return(ls)
+}
+
+
+persistentSimulatePowerAtPoint<-function(test, nSimulation, n, i,epsilon){
+  set.seed(10071977)
+  fname=paste0("rp",i,".csv")
+  fname=file.path("points",fname)
+  rp=read.csv(rp, fname)
+  
+  fname=paste0("r",i,".csv")
+  fname=file.path("power",fname)
+  
+  if (file.exists(fname)){
+    s=read.csv(fname)
+    return(s$x)
+  }
+  
+  getSample<-function(){
+    sampleFromBoundaryPoint(rp,n)
+  }
+  
+  res=simulatePowerAtPoint(test,getSample, nSimulation)
+  
+  r=sum(res<=epsilon)/nSimulation
+  write.csv(r,fname)
+  return(r)
+}
+
+
+simulatePowerAtBoundary<-function(test,nPoints, n, epsilon, nSimulation=1000){
+  
+  # cl=getCluster()
+  # power=parSapply(cl,bndPoints, simulatePowerAtDistribution, test=test,  
+  #                 n=length(parameter$x), nSimulation=1000, eps=parameter$eps)
+  # stopCluster(cl)
+  
+  # power=sapply(bndPoints, simulatePowerAtDistribution, test=test,  
+  #              n=length(parameter$x), nSimulation=1000, eps=parameter$eps)
+  
+  power=rep(0,nPoints)
+  for (i in c(1:nPoints)){
+    power[i]=persistentSimulatePowerAtPoint(test, nSimulation, n, i,epsilon)
+  }
+  
+  for (i in c(1:nPoints)){
+    fname=paste0("r",i,".csv")
+    fname=file.path("power",fname)
+    file.remove(fname)
+  }
+  return(power)
+}
+
+
