@@ -1,3 +1,5 @@
+library(rjson)
+
 getRegularHistogram<-function(x,breaks){
   d=length(x[[1]])
   x=as.matrix(t(as.data.frame(x)))
@@ -52,9 +54,10 @@ randomExteriorPoint<-function(x, breaks, epsilon){
 generateBoundaryPoints<-function(x, breaks, epsilon, nPoints){
   for (n in c(1:nPoints)) {
     rp=randomExteriorPoint(x,breaks,epsilon)
-    fname=paste0("rp",i,".csv")
+    fname=paste0("rp",i,".json")
+    rpJS=toJSON(rp)
     fname=file.path("points",fname)
-    write.csv(rp, fname)
+    write(rpJS, fname)
   }
   
 }

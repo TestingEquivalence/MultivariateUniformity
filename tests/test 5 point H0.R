@@ -1,5 +1,6 @@
 library(spatstat)
 library(mvmesh)
+library(jsonlite)
 
 source("distance.R")
 source("size.R")
@@ -24,16 +25,11 @@ for (i in c(1:n)){
 
 dst=distance(x)
 breaks=4
-epsilon=0.005
+epsilon=0.003 #0.005
 
 rp=randomExteriorPoint(x,breaks, epsilon)
-nx=simulateFromHistogram(20000, rp$mhist)
+nx=simulateFromHistogram(50000, rp$mhist)
 distance(nx)
 
-
-bx=list()
-for (i in c(1:10000)){
-  bx[i]=sampleFromBoundaryPoint(rp)
-}
-
-bdst=distance(bx)
+saveRDS(rp,file = "rp.RDS")
+rpp=readRDS("rp.RDS")

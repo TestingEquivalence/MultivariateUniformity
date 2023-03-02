@@ -30,7 +30,7 @@ distance<-function(x){
     }
   }
   
-  r=r/(n*n)
+  r=r/n/n
   return(r)
 }
 
