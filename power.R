@@ -1,5 +1,3 @@
-library(rjson)
-
 getRegularHistogram<-function(x,breaks){
   d=length(x[[1]])
   x=as.matrix(t(as.data.frame(x)))
@@ -24,19 +22,31 @@ simulateFromHistogram<-function(n,h){
 randomExteriorPoint<-function(x, breaks, epsilon){
   n=length(x)
   d=length(x[[1]])
+  stage1=1000
+  stage2=5000
+  stage3=50000
   tr=1
   repeat{
     nx=sample(x,n,replace = TRUE)
     mhist=getRegularHistogram(nx,breaks)
-    #compute distance very approximately to obtain candidates quickly
-    y=simulateFromHistogram(1000,mhist)
+    
+    #stage 1: compute distance very approximately to obtain candidates quickly:
+    y=simulateFromHistogram(stage1,mhist)
     dst=distance(y)
     if (dst>epsilon) {
-      #compute distance more precise to check candidates
-      y=simulateFromHistogram(100^d,mhist)
+      
+      #stage 2: compute distance more precise to check candidates:
+      y=simulateFromHistogram(stage2,mhist)
       dst=distance(y)
-      if (dst>epsilon){
-        ls=list()
+      if (dst>epsilon) {
+        
+        #stage 3: compute distance more precise to check candidates:
+        y=simulateFromHistogram(stage3,mhist)
+        dst=distance(y)
+        if (dst>epsilon) {
+          
+          #compute boundary point and return
+          ls=list()
         ls$dst=dst
         ls$mhist=mhist
         ls$d=d
@@ -44,7 +54,8 @@ randomExteriorPoint<-function(x, breaks, epsilon){
         ls$epsilon=epsilon
         ls$w=sqrt(epsilon/dst)
         return(ls)
-      }
+        }
+        }
     }
     print(paste("trial: ",tr," : ",dst))
     tr=tr+1
@@ -54,10 +65,9 @@ randomExteriorPoint<-function(x, breaks, epsilon){
 generateBoundaryPoints<-function(x, breaks, epsilon, nPoints){
   for (n in c(1:nPoints)) {
     rp=randomExteriorPoint(x,breaks,epsilon)
-    fname=paste0("rp",i,".json")
-    rpJS=toJSON(rp)
+    fname=paste0("rp",i,".RDS")
     fname=file.path("points",fname)
-    write(rpJS, fname)
+    saveRDS(rp,fname)
   }
   
 }

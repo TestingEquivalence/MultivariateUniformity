@@ -25,10 +25,6 @@ for (i in c(1:n)){
 dst=distance(x)
 breaks=4
 epsilon=0.003 #0.005
+nPoints=3
 
-rp=randomExteriorPoint(x,breaks, epsilon)
-nx=simulateFromHistogram(50000, rp$mhist)
-distance(nx)
-
-saveRDS(rp,file = "rp.RDS")
-rpp=readRDS("rp.RDS")
+generateBoundaryPoints(x,breaks,epsilon,nPoints)
