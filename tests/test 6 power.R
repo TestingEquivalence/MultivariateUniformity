@@ -22,9 +22,19 @@ for (i in c(1:n)){
   x[[i]]=c(data$x[i],data$y[i])
 }
 
+# generate boundary points
+
 dst=distance(x)
 breaks=4
 epsilon=0.003 #0.005
 nPoints=3
 
 generateBoundaryPoints(x,breaks,epsilon,nPoints)
+
+orderName="pointsFinPines"
+fname=paste0("rp",1,".RDS")
+fname=file.path(orderName,fname)
+rp=readRDS(fname)
+
+x=sampleFromBoundaryPoint(rp,1000)
+distance(x)

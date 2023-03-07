@@ -4,6 +4,8 @@ source("distance.R")
 source("size.R")
 source("asymptoticTestBootstrapVariance.R")
 source("BootstrapTestTPercentile.R")
+source("power.R")
+source("size.R")
 
 # rescale positions data to [0, 1]
 data=finpines
@@ -71,3 +73,12 @@ test<-function(x){
 res=simulatePowerAtPoint(test, getSample)
 fn=paste0("size_tPB_200_50.csv")
 write.csv(res,fn)
+
+# compute boundary points
+breaks=4
+epsilon=0.005
+nPoints=2
+orderName="pointsFinPines"
+
+generateBoundaryPoints(x,breaks,epsilon, nPoints,orderName)
+persistentSimulatePowerAtPoint(test, nSimulation =  10,n,epsilon,1,orderName)
