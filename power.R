@@ -62,11 +62,16 @@ randomExteriorPoint<-function(x, breaks, epsilon){
   }
 }
 
-generateBoundaryPoints<-function(x, breaks, epsilon, nPoints){
-  for (n in c(1:nPoints)) {
+generateBoundaryPoints<-function(x, breaks, epsilon, nPoints,orderName){
+  set.seed(10071977)
+  if(!dir.exists(orderName)){
+    dir.create(orderName)
+  }
+  
+  for (i in c(1:nPoints)) {
     rp=randomExteriorPoint(x,breaks,epsilon)
     fname=paste0("rp",i,".RDS")
-    fname=file.path("points",fname)
+    fname=file.path(orderName,fname)
     saveRDS(rp,fname)
   }
   
@@ -77,22 +82,29 @@ sampleFromBoundaryPoint<-function(p,n){
    for (i in c(1:n)){
      w=rbinom(1,1,p$w)
      if (w==1){
-      ls[[i]]=simulateFromHistogram(1,p$mhist)
+      ls[[i]]=simulateFromHistogram(1,p$mhist)[[1]]
      }
-     ls[[i]]=getUniformSample(p$d,1)    
+     else{
+      ls[[i]]=getUniformSample(p$d,1)[[1]]    
+     }
    }
    return(ls)
 }
 
 
-persistentSimulatePowerAtPoint<-function(test, nSimulation, n, i,epsilon){
-  set.seed(10071977)
-  fname=paste0("rp",i,".csv")
-  fname=file.path("points",fname)
-  rp=read.csv(rp, fname)
+persistentSimulatePowerAtPoint<-function(test, nSimulation, n,epsilon, i, orderName){
+  set.seed(18032021)
+  fname=paste0("rp",i,".RDS")
+  fname=file.path(orderName,fname)
+  rp=readRDS(fname)
+  
+  powerName="power"
+  if(!dir.exists(powerName)){
+    dir.create(powerName)
+  }
   
   fname=paste0("r",i,".csv")
-  fname=file.path("power",fname)
+  fname=file.path(powerName,fname)
   
   if (file.exists(fname)){
     s=read.csv(fname)
