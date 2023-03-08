@@ -1,4 +1,5 @@
 library(spatstat)
+library(mvmesh)
 
 source("distance.R")
 source("size.R")
@@ -6,6 +7,7 @@ source("asymptoticTestBootstrapVariance.R")
 source("BootstrapTestTPercentile.R")
 source("power.R")
 source("size.R")
+
 
 # rescale positions data to [0, 1]
 data=finpines
@@ -51,7 +53,7 @@ getSample<-function(){
 test<-function(x){
   parameter=list()
   parameter$x=x
-  parameter$nSimulation=1000
+  parameter$nSimulation=20
   parameter$alpha=0.05  
   asymptoticTestBootstrapVariance(parameter)
 }
@@ -81,4 +83,7 @@ nPoints=2
 orderName="pointsFinPines"
 
 generateBoundaryPoints(x,breaks,epsilon, nPoints,orderName)
-persistentSimulatePowerAtPoint(test, nSimulation =  10,n,epsilon,1,orderName)
+
+# simulate boundary power 
+
+simulatePowerAtBoundary(test,nPoints,n, epsilon, orderName, nSimulation = 10)

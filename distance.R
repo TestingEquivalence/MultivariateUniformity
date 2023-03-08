@@ -1,25 +1,27 @@
-s<-function(x,y){
-  d=length(x)
-  s3=(1/3)^d
-  
-  r=s1(x,y)-s2(x)-s2(y)+s3
-  return(r)
-}
-s1<-function(x,y){
-  z=pmax(x,y)
-  z=1-z
-  return(prod(z))
-}
-s2<-function(x){
-  x=x*x
-  x=x/2
-  x=0.5-x
-  return(prod(x))
-}
-
 distance<-function(x){
   n=length(x)
   r=0
+  
+  s<-function(x,y){
+    d=length(x)
+    s3=(1/3)^d
+    
+    r=s1(x,y)-s2(x)-s2(y)+s3
+    return(r)
+  }
+  s1<-function(x,y){
+    z=pmax(x,y)
+    z=1-z
+    return(prod(z))
+  }
+  s2<-function(x){
+    x=x*x
+    x=x/2
+    x=0.5-x
+    return(prod(x))
+  }
+  
+  
   for(i in c(1:n)){
     r=r+s(x[[i]],x[[i]])
     

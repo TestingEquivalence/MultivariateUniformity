@@ -1,3 +1,5 @@
+library(parallel)
+
 getRegularHistogram<-function(x,breaks){
   d=length(x[[1]])
   x=as.matrix(t(as.data.frame(x)))
@@ -123,20 +125,18 @@ persistentSimulatePowerAtPoint<-function(test, nSimulation, n,epsilon, i, orderN
 }
 
 
-simulatePowerAtBoundary<-function(test,nPoints, n, epsilon, nSimulation=1000){
+simulatePowerAtBoundary<-function(test,nPoints, n, epsilon, orderName, nSimulation=1000){
   
-  # cl=getCluster()
-  # power=parSapply(cl,bndPoints, simulatePowerAtDistribution, test=test,  
-  #                 n=length(parameter$x), nSimulation=1000, eps=parameter$eps)
-  # stopCluster(cl)
+  cl=getCluster()
+  i=c(1:nPoints)
+  power=parSapply(cl,i, persistentSimulatePowerAtPoint, test=test, nSimulation=nSimulation,
+                  n=n, epsilon=epsilon, orderName=orderName)
+  stopCluster(cl)
   
-  # power=sapply(bndPoints, simulatePowerAtDistribution, test=test,  
-  #              n=length(parameter$x), nSimulation=1000, eps=parameter$eps)
-  
-  power=rep(0,nPoints)
-  for (i in c(1:nPoints)){
-    power[i]=persistentSimulatePowerAtPoint(test, nSimulation, n, i,epsilon)
-  }
+  # power=rep(0,nPoints)
+  # for (i in c(1:nPoints)){
+  #   power[i]=persistentSimulatePowerAtPoint(test,nSimulation,n,epsilon,i,orderName)
+  # }
   
   for (i in c(1:nPoints)){
     fname=paste0("r",i,".csv")
@@ -146,4 +146,14 @@ simulatePowerAtBoundary<-function(test,nPoints, n, epsilon, nSimulation=1000){
   return(power)
 }
 
-
+# Calculate the number of cores
+getCluster<-function(){
+  no_cores <- detectCores() - 1
+  
+  # Initiate cluster
+  cl <- makeCluster(no_cores,'SOCK')
+  clusterExport(cl,c("distance","simulatePowerAtPoint","sampleFromBoundaryPoint","simulateFromHistogram", "rmvmesh",
+                     "getUniformSample","asymptoticTestBootstrapVariance","bootstrapVolatility","boot"))
+  
+  return(cl)
+}
