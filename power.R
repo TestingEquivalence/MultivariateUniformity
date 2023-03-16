@@ -117,7 +117,7 @@ persistentSimulatePowerAtPoint<-function(test, nSimulation, n,epsilon, i, orderN
     sampleFromBoundaryPoint(rp,n)
   }
   
-  res=simulatePowerAtPoint(test,getSample, nSimulation)
+  res=simulatePowerAtPoint(test,getSample, nSimulation, orderName = paste0("temp_",i))
   
   r=sum(res<=epsilon)/nSimulation
   write.csv(r,fname)
