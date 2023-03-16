@@ -67,13 +67,13 @@ test<-function(x){
   parameter=list()
   parameter$x=x
   parameter$nSimulation=200
-  parameter$nSimulationVariance=50
+  parameter$nSimulationVariance=20
   parameter$alpha=0.05  
   tPercentileBootstrapTest(parameter)
 }
 
-res=simulatePowerAtPoint(test, getSample)
-fn=paste0("size_tPB_200_50.csv")
+res=simulatePowerAtPoint(test, getSample, orderName = "tPB_200_20")
+fn=paste0("size_tPB_200_20.csv")
 write.csv(res,fn)
 
 # compute boundary points
